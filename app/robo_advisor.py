@@ -1,3 +1,8 @@
+## TO DO
+# to usd equation
+# date accessed 
+
+
 
 import requests
 import json
@@ -20,8 +25,13 @@ response = requests.get(requests_url)
 parsed_response = json.loads(response.text)
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+tsd = parsed_response["Time Series (Daily)"]
 
-latest_close = parsed_response["Time Series (Daily)"]["2021-03-02"]["4. close"]
+
+dates = list(tsd.keys()) # TOD): sort to ensure latest day is first
+latest_day = dates[0]
+
+latest_close = tsd[latest_day]["4. close"]
 #breakpoint()
 
 
