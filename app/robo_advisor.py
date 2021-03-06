@@ -57,24 +57,28 @@ recent_low = min(low_prices)
 # INFO OUTPUTS
 #
 
-csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
+# csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
+# 
+# csv_headers = ["timestamp","open","high","low","close","volume"]
+# 
+# with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
+#     writer = csv.DictWriter(csv_file, fieldnames=[csv_headers])
+#     writer.writeheader() # uses fieldnames set above
+#     
+#     # looping 
+#     for date in dates:
+#         writer.writerow({
+#             "timestamp": date,
+#             "open":"TODO",
+#             "high": "TODO",
+#             "low":"TODO",
+#             "close": "TODO",
+#             "volume": "TODO",
+#         })
+#     
 
-csv_headers = ["timestamp","open","high","low","close","volume"]
 
-with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
-    writer = csv.DictWriter(csv_file, fieldnames=[csv_headers])
-    writer.writeheader() # uses fieldnames set above
-    
-    # looping 
-    writer.writerow({
-        "timestamp":
-        "open":
-        "high":
-        "low":
-        "close":
-        "volume":
-    })
-    
+
 
 
 print("-------------------------")
@@ -91,11 +95,21 @@ print("-------------------------")
 print("RECOMMENDATION: BUY!") # TODO using inputs created for high and low?
 print("RECOMMENDATION REASON: TODO") # TODO using inputs created for high and low?
 print("-------------------------")
-print(f"WRITING DATA TO CSV: {csv_file_path}") 
+#print(f"WRITING DATA TO CSV: {csv_file_path}") 
 print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
 
 
 #csv_file_path = "data/prices.csv" # a relative filepath
+
+csv_file_path = "data/prices.csv" # a relative filepath
+
+with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
+    writer = csv.DictWriter(csv_file, fieldnames=["city", "name"])
+    writer.writeheader() # uses fieldnames set above
+    writer.writerow({"city": "New York", "name": "Yankees"})
+    writer.writerow({"city": "New York", "name": "Mets"})
+    writer.writerow({"city": "Boston", "name": "Red Sox"})
+    writer.writerow({"city": "New Haven", "name": "Ravens"})
 
