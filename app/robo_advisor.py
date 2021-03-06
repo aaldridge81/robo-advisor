@@ -4,9 +4,11 @@
 
 
 import csv
-import requests
 import os
 import json
+
+import requests
+
 
 # DESCROPTION
 def to_usd(my_price):
@@ -16,12 +18,14 @@ def to_usd(my_price):
 # INFO INPUTS
 #
 
-requests_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo"
+symbol = "IBM" # to do: accept user input
+
+api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
+
+requests_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 
 response = requests.get(requests_url)
-# print(type(response)) #> <class 'requests.models.Response'>
-# print(response.status_code) #> 200
-# print(response.text) 
+
 
 parsed_response = json.loads(response.text)
 
