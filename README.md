@@ -33,7 +33,10 @@ pip install -r requirements.txt
 
 ## Setup
 
-In the root directory of your local repository, create a new file called ".env", and update the contents of the ".env" file ________
+In the root directory of your local repository, create a new file called ".env", and update the contents of the ".env" file to specify your real API Key:
+    
+    ALPHAVANTAGE_API_KEY="abc123"
+
 
 
 ## Usage

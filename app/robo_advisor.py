@@ -1,24 +1,52 @@
-## TO DO
-# to usd equation
-# date accessed 
-
+# robo_advisor.py
 
 import csv
 import os
 import json
+import string
 
+from datetime import datetime
+from dotenv import load_dotenv
 import requests
 
+load_dotenv()
 
-# DESCROPTION
+# DESCRIPTION
+# def to_usd(my_price):
+#     return "${0:,.2f}".format(my_price)
+
 def to_usd(my_price):
-    return "${0:,.2f}".format(my_price)
+    """
+    Converts a numeric value to usd-formatted string, for printing and display purposes.
+
+    Param: my_price (int or float) like 4000.444444
+
+    Example: to_usd(4000.444444)
+
+    Returns: $4,000.44
+    """
+    return f"${my_price:,.2f}" #> $12,000.71
+
 
 #
 # INFO INPUTS
 #
 
-symbol = "IBM" # to do: accept user input
+# symbol = input("Please input Stock ticker symbol:") # to do: accept user input
+# symbol = symbol.upper()
+# 
+# print(len(symbol))
+# exit()
+
+try:
+    symbol = input("Please input Stock ticker symbol:") # to do: accept user input
+    symbol = symbol.upper()
+    # if len(symbol) >5 or len(symbol)< 3: # contains integer or too many letters
+    if len(symbol) > 5 or len(symbol) < 3: #string.digits == True:
+        raise ValueError()
+except ValueError:
+    print("Please enter a valid ticker symbol")
+
 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 
@@ -53,9 +81,6 @@ for date in dates:
 recent_high = max(high_prices)
 recent_low = min(low_prices)
 
-#breakpoint()
-
-
 
 #
 # INFO OUTPUTS
@@ -82,13 +107,15 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             "volume": daily_prices["5. volume"]
             })
     
+now = datetime.now()
+dt_string = now.strftime("%B %d, %Y %H:%M")
 
 
 print("-------------------------")
-print("SELECTED SYMBOL: XYZ")
+print(f"SELECTED SYMBOL: {symbol}")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm") # date time module OYO
+print(f"REQUEST AT: {dt_string}") 
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
@@ -104,9 +131,6 @@ print("HAPPY INVESTING!")
 print("-------------------------")
 
 
-#csv_file_path = "data/prices.csv" # a relative filepath
-
-# csv_file_path = "data/prices.csv" # a relative filepath
 
 
 
