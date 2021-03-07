@@ -39,17 +39,6 @@ symbol = input("Please input Stock ticker symbol:") # to do: accept user input
 symbol = symbol.upper()
 
 
-#print(has_numbers(symbol))
-
-#exit()
-
-# if len(symbol) < 3:
-#     print("please enter valid input")
-# elif len(symbol) > 5:
-#     print ("please enter valid input")
-# elif has_numbers(symbol) == True:
-#     print ("please enter a valid input")
-
 try:
     if len(symbol) < 3:
         raise ValueError()
@@ -60,18 +49,7 @@ try:
 except ValueError:
     print("Please enter a valid ticker symbol")
     exit()
-    
 
-
-# try:
-#     symbol = input("Please input Stock ticker symbol:") # to do: accept user input
-#     symbol = symbol.upper()
-#     # if len(symbol) >5 or len(symbol)< 3: # contains integer or too many letters
-#     if len(symbol) > 5 or len(symbol) < 3: #string.digits == True:
-#         raise ValueError()
-# except ValueError:
-#     print("Please enter a valid ticker symbol")
-# 
 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 
@@ -111,7 +89,6 @@ recent_low = min(low_prices)
 # INFO OUTPUTS
 #
 
-
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
 
 csv_headers = ["timestamp","open","high","low","close","volume"]
@@ -131,7 +108,17 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             "close": daily_prices["4. close"],
             "volume": daily_prices["5. volume"]
             })
-    
+
+high_contraint = float(recent_low)* 1.2
+
+if high_contraint > float(tsd[date]["4. close"]):
+    purchase = "Buy"
+    recommendation = "Now is a good time to buy because the closing price is greater than 20% higher than the recent low"
+else:
+    purchase = "Don't Buy"
+    recommendation = "It is not a good time to buy this stock. The closing price is not above 20% of the recent low, making this a bad purchase"
+
+
 now = datetime.now()
 dt_string = now.strftime("%B %d, %Y %H:%M")
 
@@ -147,8 +134,8 @@ print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
-print("RECOMMENDATION: BUY!") # TODO using inputs created for high and low?
-print("RECOMMENDATION REASON: TODO") # TODO using inputs created for high and low?
+print(f"RECOMMENDATION: {purchase} !") # TODO using inputs created for high and low?
+print(f"RECOMMENDATION REASON: {recommendation}") # TODO using inputs created for high and low?
 print("-------------------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}") 
 print("-------------------------")
