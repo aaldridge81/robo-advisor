@@ -27,26 +27,51 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)
+
 
 #
 # INFO INPUTS
 #
 
-# symbol = input("Please input Stock ticker symbol:") # to do: accept user input
-# symbol = symbol.upper()
-# 
-# print(len(symbol))
-# exit()
+symbol = input("Please input Stock ticker symbol:") # to do: accept user input
+symbol = symbol.upper()
+
+
+#print(has_numbers(symbol))
+
+#exit()
+
+# if len(symbol) < 3:
+#     print("please enter valid input")
+# elif len(symbol) > 5:
+#     print ("please enter valid input")
+# elif has_numbers(symbol) == True:
+#     print ("please enter a valid input")
 
 try:
-    symbol = input("Please input Stock ticker symbol:") # to do: accept user input
-    symbol = symbol.upper()
-    # if len(symbol) >5 or len(symbol)< 3: # contains integer or too many letters
-    if len(symbol) > 5 or len(symbol) < 3: #string.digits == True:
+    if len(symbol) < 3:
+        raise ValueError()
+    elif len(symbol) > 5:
+        raise ValueError()
+    elif has_numbers(symbol) == True:
         raise ValueError()
 except ValueError:
     print("Please enter a valid ticker symbol")
+    exit()
+    
 
+
+# try:
+#     symbol = input("Please input Stock ticker symbol:") # to do: accept user input
+#     symbol = symbol.upper()
+#     # if len(symbol) >5 or len(symbol)< 3: # contains integer or too many letters
+#     if len(symbol) > 5 or len(symbol) < 3: #string.digits == True:
+#         raise ValueError()
+# except ValueError:
+#     print("Please enter a valid ticker symbol")
+# 
 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 
