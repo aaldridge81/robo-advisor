@@ -37,21 +37,6 @@ symbol = input("Please input Stock ticker symbol:")
 symbol = symbol.upper()
 
 
-# try:
-#     if len(symbol) < 3:
-#         raise ValueError()
-#     elif len(symbol) > 5:
-#         raise ValueError()
-#     elif has_numbers(symbol) == True:
-#         raise ValueError()
-#     elif substring in response:
-#         raise ValueError()
-#     # line of code if the ticker symbol is not valid
-# except ValueError:
-#     print("Please enter a valid ticker symbol")
-#     exit()
-
-
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 
 requests_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
@@ -61,11 +46,8 @@ response = requests.get(requests_url)
 substring = "Error"
 
 parsed_response = json.loads(response.text)
-#print(parsed_response)
-#print(type(parsed_response))
 full_string = str(parsed_response)
-#print(full_string)
-#print(type(full_string))
+
 
 
 try:
@@ -135,7 +117,7 @@ high_contraint = float(recent_low)* 1.2
 
 if high_contraint > float(tsd[date]["4. close"]):
     purchase = "Buy"
-    recommendation = "Now is a good time to buy because the closing price is greater than 20% higher than the recent low"
+    recommendation = "Now is a good time to buy because the closing price is at least 20% higher than the recent low"
 else:
     purchase = "Don't Buy"
     recommendation = "It is not a good time to buy this stock. The closing price is not above 20% of the recent low, making this a bad purchase"
@@ -156,15 +138,11 @@ print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
-print(f"RECOMMENDATION: {purchase} !") 
+print(f"RECOMMENDATION: {purchase}!") 
 print(f"RECOMMENDATION REASON: {recommendation}") 
 print("-------------------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}") 
 print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
-
-
-
-
 
