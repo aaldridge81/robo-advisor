@@ -12,8 +12,6 @@ import requests
 load_dotenv()
 
 # DESCRIPTION
-# def to_usd(my_price):
-#     return "${0:,.2f}".format(my_price)
 
 def to_usd(my_price):
     """
@@ -35,8 +33,39 @@ def has_numbers(inputString):
 # INFO INPUTS
 #
 
-symbol = input("Please input Stock ticker symbol:") # to do: accept user input
+symbol = input("Please input Stock ticker symbol:") 
 symbol = symbol.upper()
+
+
+# try:
+#     if len(symbol) < 3:
+#         raise ValueError()
+#     elif len(symbol) > 5:
+#         raise ValueError()
+#     elif has_numbers(symbol) == True:
+#         raise ValueError()
+#     elif substring in response:
+#         raise ValueError()
+#     # line of code if the ticker symbol is not valid
+# except ValueError:
+#     print("Please enter a valid ticker symbol")
+#     exit()
+
+
+api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
+
+requests_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+
+response = requests.get(requests_url)
+
+substring = "Error"
+
+parsed_response = json.loads(response.text)
+#print(parsed_response)
+#print(type(parsed_response))
+full_string = str(parsed_response)
+#print(full_string)
+#print(type(full_string))
 
 
 try:
@@ -46,25 +75,18 @@ try:
         raise ValueError()
     elif has_numbers(symbol) == True:
         raise ValueError()
+    elif substring in full_string:
+        raise ValueError()
 except ValueError:
-    print("Please enter a valid ticker symbol")
+    print("Please enter a valid ticker symbol, like 'MSFT' or 'PTON'")
     exit()
 
-
-api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
-
-requests_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
-
-response = requests.get(requests_url)
-
-
-parsed_response = json.loads(response.text)
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 tsd = parsed_response["Time Series (Daily)"]
 
 
-dates = list(tsd.keys()) # TODO: sort to ensure latest day is first
+dates = list(tsd.keys()) 
 latest_day = dates[0]
 
 latest_close = tsd[latest_day]["4. close"]
@@ -134,8 +156,8 @@ print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
-print(f"RECOMMENDATION: {purchase} !") # TODO using inputs created for high and low?
-print(f"RECOMMENDATION REASON: {recommendation}") # TODO using inputs created for high and low?
+print(f"RECOMMENDATION: {purchase} !") 
+print(f"RECOMMENDATION REASON: {recommendation}") 
 print("-------------------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}") 
 print("-------------------------")
